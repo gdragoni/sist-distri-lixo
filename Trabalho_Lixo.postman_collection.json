@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\": 121212,\n\t\"lat\": 22.98,\n\t\"lng\": 23.90,\n\t\"tipo\": \"Hospital\",\n\t\"ambiente\": \"Centro\"\n}",
+							"raw": "{\n\t\"id\": 121212,\n\t\"lat\": -22.98,\n\t\"lng\": 23.90,\n\t\"tipo\": \"Orgânico\",\n\t\"ambiente\": \"Centro\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -67,7 +67,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\": 121212,\n\t\"lat\": -22.98,\n\t\"lng\": -23.90,\n\t\"tipo\": \"Hospital\",\n\t\"ambiente\": \"Centro\"\n}",
+							"raw": "{\n\t\"id\": 121212,\n\t\"lat\": -22.98,\n\t\"lng\": -23.90,\n\t\"tipo\": \"Orgânico\",\n\t\"ambiente\": \"Centro\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,6 +106,56 @@
 								"restful",
 								"webresources",
 								"lixeira"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Extra Get Lixeira por Tipo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/lixeira?tipo=Metal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"lixeira"
+							],
+							"query": [
+								{
+									"key": "tipo",
+									"value": "Metal"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Extra Get Lixeira Detalhes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/lixeira/detail/121212",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"lixeira",
+								"detail",
+								"121212"
 							]
 						}
 					},
@@ -219,6 +269,29 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Extra Get Funcionario Detalhes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/funcionario/detail/123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"funcionario",
+								"detail",
+								"123"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -233,7 +306,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id_lixeira\": 12345,\n\t\"id_usuario\": 123,\n\t\"descricao\": \"Cachorro no lixo\"\n}",
+							"raw": "{\n\t\"id_lixeira\": 121212,\n\t\"id_usuario\": 123,\n\t\"descricao\": \"Esvaziou lixeira\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -328,6 +401,51 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Extra Get Evento por Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/evento/2020-04-28",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"evento",
+								"2020-04-28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Extra Get Evento por período de Datas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/evento/2020-04-25/2020-04-30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"evento",
+								"2020-04-25",
+								"2020-04-30"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -342,7 +460,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id_lixeira\": 12345,\n\t\"capacidade\": 0.5\n}",
+							"raw": "{\n\t\"id_lixeira\": 121212,\n\t\"capacidade\": 0\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -437,6 +555,51 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Extra Get HistoricoCapacidade por Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/historicoCapacidade/2020-04-26",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"historicoCapacidade",
+								"2020-04-26"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Extra Get HistoricoCapacidade por período de Datas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/historicoCapacidade/2020-04-26/2020-04-30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"historicoCapacidade",
+								"2020-04-26",
+								"2020-04-30"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -451,7 +614,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id_lixeira\": 12345,\n\t\"valor\": false\n}",
+							"raw": "{\n\t\"id_lixeira\": 121212,\n\t\"valor\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -542,6 +705,51 @@
 								"restful",
 								"webresources",
 								"historicoTampa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Extra Get HistoricoTampa por Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/historicoTampa/2020-04-28",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"historicoTampa",
+								"2020-04-28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Extra Get HistoricoTampa por período de datas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/restful/webresources/historicoTampa/2020-04-26/2020-04-29",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restful",
+								"webresources",
+								"historicoTampa",
+								"2020-04-26",
+								"2020-04-29"
 							]
 						}
 					},
