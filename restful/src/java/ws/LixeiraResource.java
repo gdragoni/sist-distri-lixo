@@ -18,9 +18,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import modelo.Lixeira;
 import modelo.LixeiraDAO;
+import modelo.LixeiraDetalhes;
 
 /**
  * REST Web Service
@@ -66,8 +69,19 @@ public class LixeiraResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String selecionaLixeira() throws SQLException {
-        ArrayList<Lixeira> list = dao.selectLixeira();
+    public String selecionaLixeiraPorTipo(@QueryParam("tipo") String tipo) throws SQLException {
+        ArrayList<Lixeira> list = tipo == null ? dao.selectLixeira() : dao.selectLixeira(tipo);
         return gson.toJson(list);
+    }
+    
+    @GET
+    @Path("detail/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaLixeiraDetalhes(@PathParam("id") int id) throws SQLException, ClassNotFoundException {
+        LixeiraDetalhes lixeiraDetalhes = dao.selectLixeiraDetalhes(id);
+        if(lixeiraDetalhes == null) {
+            return "Nâo foi encontrado lixeira com o ID informado";
+        }
+        return gson.toJson(lixeiraDetalhes);
     }
 }

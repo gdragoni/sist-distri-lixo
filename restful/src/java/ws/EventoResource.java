@@ -70,4 +70,20 @@ public class EventoResource {
         ArrayList<Evento> list = dao.selectEvento();
         return gson.toJson(list);
     }
+    
+    @GET
+    @Path("{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaEventoPorData(@PathParam("date") String date) throws SQLException {
+        ArrayList<Evento> list = dao.selectEventoPorData(date);
+        return gson.toJson(list);
+    }
+    
+    @GET
+    @Path("{fromDate}/{toDate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaEventoPorDatas(@PathParam("fromDate") String fromDate, @PathParam("toDate") String toDate) throws SQLException {
+        ArrayList<Evento> list = dao.selectEventoPorDatas(fromDate, toDate);
+        return gson.toJson(list);
+    }
 }

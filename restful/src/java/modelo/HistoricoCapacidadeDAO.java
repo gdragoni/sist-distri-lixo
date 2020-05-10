@@ -42,6 +42,25 @@ public class HistoricoCapacidadeDAO extends DAO {
     
     public ArrayList<HistoricoCapacidade> selectHistoricoCapacidade() throws SQLException {
         String sql = "SELECT * FROM historico_lixeira_sensor_capacidade";
+        return selectHistoricoCapacidadePorQuery(sql);
+    }
+    
+    public ArrayList<HistoricoCapacidade> selectHistoricoCapacidade(String date) throws SQLException {
+        String sql = "SELECT * FROM historico_lixeira_sensor_capacidade WHERE historico_lixeira_sensor_capacidade.data='"+date+"'";
+        return selectHistoricoCapacidadePorQuery(sql);
+    }
+    
+    public ArrayList<HistoricoCapacidade> selectHistoricoCapacidade(String fromDate, String toDate) throws SQLException {
+        String sql = "SELECT * FROM historico_lixeira_sensor_capacidade WHERE historico_lixeira_sensor_capacidade.data BETWEEN '"+fromDate+"' AND '"+toDate+"'";
+        return selectHistoricoCapacidadePorQuery(sql);
+    }
+    
+    public ArrayList<HistoricoCapacidade> selectHistoricoCapacidadePorLixeira(int id) throws SQLException {
+        String sql = "SELECT * FROM historico_lixeira_sensor_capacidade WHERE historico_lixeira_sensor_capacidade.id_lixeira="+id;
+        return selectHistoricoCapacidadePorQuery(sql);
+    }
+    
+    private ArrayList<HistoricoCapacidade> selectHistoricoCapacidadePorQuery(String sql) throws SQLException {
         PreparedStatement stm = con.prepareStatement(sql);
         ResultSet rs = stm.executeQuery();
         

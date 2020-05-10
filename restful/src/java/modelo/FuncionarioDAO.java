@@ -38,6 +38,22 @@ public class FuncionarioDAO extends DAO {
     
     public ArrayList<Funcionario> selectFuncionario() throws SQLException {
         String sql = "SELECT * FROM funcionario";
+        return selectFuncionarioPorQuery(sql);
+    }
+    
+    public FuncionarioDetalhes selectFuncionarioDetalhes(int id) throws SQLException, ClassNotFoundException {
+        ArrayList<Funcionario> lista = selectFuncionarioPorQuery("SELECT * FROM funcionario WHERE funcionario.id_funcionario="+id);
+        if(lista.isEmpty()) {
+            return null;
+        }
+        Funcionario funcionario = lista.get(0);
+        FuncionarioDetalhes detalhes;
+        detalhes = new FuncionarioDetalhes(funcionario.getId(), funcionario.getNome());
+        detalhes.setEventos(new EventoDAO().selectEventosPorUsuario(id));
+        return detalhes;
+    }
+    
+    public ArrayList<Funcionario> selectFuncionarioPorQuery(String sql) throws SQLException {
         PreparedStatement stm = con.prepareStatement(sql);
         ResultSet rs = stm.executeQuery();
         

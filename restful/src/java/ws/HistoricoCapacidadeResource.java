@@ -65,4 +65,20 @@ public class HistoricoCapacidadeResource {
         ArrayList<HistoricoCapacidade> list = dao.selectHistoricoCapacidade();
         return gson.toJson(list);
     }
+    
+    @GET
+    @Path("{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaHistoricoCapacidadePorData(@PathParam("date") String date) throws SQLException {
+        ArrayList<HistoricoCapacidade> list = dao.selectHistoricoCapacidade(date);
+        return gson.toJson(list);
+    }
+    
+    @GET
+    @Path("{fromDate}/{toDate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaHistoricoCapacidadeEntreDatas(@PathParam("toDate") String toDate, @PathParam("fromDate") String fromDate) throws SQLException {
+        ArrayList<HistoricoCapacidade> list = dao.selectHistoricoCapacidade(fromDate, toDate);
+        return gson.toJson(list);
+    }
 }
