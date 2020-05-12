@@ -6,13 +6,15 @@ import java.sql.Time;
 
 public class Trash implements Serializable {
 	private String rfid;
-	private float valor;
+	private int idLixeira;
+	private String desc;
 	private Date data;
 	private Time hora;
 	
-	public Trash(String rfid, float valor, Date data, Time hora) {
+	public Trash(String rfid, int idLixeira,String desc, Date data, Time hora) {
 		this.rfid = rfid;
-		this.valor = valor;
+		this.idLixeira = idLixeira;
+		this.desc = desc;
 		this.data = data;
 		this.hora = hora;
 	}
@@ -20,9 +22,13 @@ public class Trash implements Serializable {
 	public String getRfid() {
 		return rfid;
 	}
+	
+	public int getIdLixeira() {
+		return idLixeira;
+	}
 
-	public float getValor() {
-		return valor;
+	public String getDesc() {
+		return desc;
 	}
 
 	public Date getData() {
