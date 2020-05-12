@@ -5,6 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -64,8 +67,27 @@ public class MqttCliente implements MqttCallback{
 		
 		Trash trash = (Trash) ois.readObject();
 		
+		URL url = new URL("http://localhost:8080/restful/webresources/evento");
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		
+		
+		
+		String json = "{\"data\":" + "\"" + trash.getData() + "\", \"hora\":" + "\"" + trash.getHora() + "\", \"id_lixeira\":" + trash.getIdLixeira() + ", \"descricao\":" + "\"" + trash.getDesc() + "\", \"id_usuario\":" + "\"" + trash.getRfid() + "\"}";
+
+		con.setDoOutput(true);
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-Type", "application/json");
+		
+		OutputStream out = con.getOutputStream();
+		out.write(json.getBytes());
+		
+		if (con.getResponseCode() == 400) {
+			System.out.println("Requisição salva no banco com sucesso !!");
+		}
+		
+		
 		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 		
-		System.out.println("\nRFID: " + trash.getRfid() + "\nPeso: " + trash.getValor() + "\nData: " + formatador.format(trash.getData()) + " as " + trash.getHora());		
+		System.out.println("\nLixeira esvazia por RFID: " + trash.getRfid() + "\nDia: " + formatador.format(trash.getData()) + " as " + trash.getHora());		
 	}	
 }
