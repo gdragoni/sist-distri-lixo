@@ -70,4 +70,20 @@ public class HistoricoTampaResource {
         ArrayList<HistoricoTampa> list = dao.selectHistoricoTampa();
         return gson.toJson(list);
     }
+    
+    @GET
+    @Path("{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaHistoricoTampaPorData(@PathParam("date") String date) throws SQLException {
+        ArrayList<HistoricoTampa> list = dao.selectHistoricoTampa(date);
+        return gson.toJson(list);
+    }
+    
+    @GET
+    @Path("{fromDate}/{toDate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaHistoricoTampaPorPeriodoDatas(@PathParam("fromDate") String fromDate, @PathParam("toDate") String toDate) throws SQLException {
+        ArrayList<HistoricoTampa> list = dao.selectHistoricoTampa(fromDate, toDate);
+        return gson.toJson(list);
+    }
 }

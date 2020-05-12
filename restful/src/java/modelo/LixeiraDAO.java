@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author grei_
+ * @author gdragoni
  */
 public class LixeiraDAO extends DAO {
     
@@ -46,8 +46,31 @@ public class LixeiraDAO extends DAO {
         stm.execute();
     }
     
+    public LixeiraDetalhes selectLixeiraDetalhes(int id) throws SQLException, ClassNotFoundException {
+        ArrayList<Lixeira> lista = selectLixeiraQuery("SELECT * FROM lixeira WHERE lixeira.id_lixeira="+id);
+        if(lista.isEmpty()) {
+            return null;
+        }
+        Lixeira lixeira = lista.get(0);
+        LixeiraDetalhes lixeiraDetalhes;
+        lixeiraDetalhes = new LixeiraDetalhes(lixeira.getId(), lixeira.getLat(), lixeira.getLng(), lixeira.getTipo(), lixeira.getAmbiente());
+        lixeiraDetalhes.setHistoricoCapacidade(new HistoricoCapacidadeDAO().selectHistoricoCapacidadePorLixeira(id));
+        lixeiraDetalhes.setEventos(new EventoDAO().selectEventosPorLixeira(id));
+        lixeiraDetalhes.setHistoricoTampa(new HistoricoTampaDAO().selectHistoricoTampaPorLixeira(id));
+        return lixeiraDetalhes;
+    }
+    
     public ArrayList<Lixeira> selectLixeira() throws SQLException {
         String sql = "SELECT * FROM lixeira";
+        return selectLixeiraQuery(sql);
+    }
+    
+    public ArrayList<Lixeira> selectLixeira(String tipo) throws SQLException {
+        String sql = "SELECT * FROM lixeira WHERE lixeira.tipo='"+tipo+"'";
+        return selectLixeiraQuery(sql);
+    }
+    
+    private ArrayList<Lixeira> selectLixeiraQuery(String sql) throws SQLException {
         PreparedStatement stm = con.prepareStatement(sql);
         ResultSet rs = stm.executeQuery();
         

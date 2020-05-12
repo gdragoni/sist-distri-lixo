@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29-Abr-2020 às 02:27
+-- Tempo de geração: 10-Maio-2020 às 22:42
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.4.3
 
@@ -43,7 +43,8 @@ CREATE TABLE `evento` (
 
 INSERT INTO `evento` (`id_evento`, `data`, `hora`, `id_lixeira`, `descricao`, `id_usuario`) VALUES
 (1, '2020-04-26', '17:12:12', 12345, 'Jogaram cocô na lixeira de metal', 123),
-(3, '2020-04-28', '19:26:10', 12345, 'Cachorro morto no lixo', 123);
+(3, '2020-04-28', '19:26:10', 12345, 'Cachorro morto no lixo', 123),
+(4, '2020-05-10', '16:35:45', 121212, 'Esvaziou lixeira', 123);
 
 -- --------------------------------------------------------
 
@@ -84,7 +85,8 @@ CREATE TABLE `historico_lixeira_sensor_capacidade` (
 
 INSERT INTO `historico_lixeira_sensor_capacidade` (`id_historico_capacidade`, `id_lixeira`, `capacidade`, `data`, `hora`) VALUES
 (1, 12345, 0.8, '2020-04-26', '18:30:35'),
-(3, 12345, 0.5, '2020-04-28', '20:24:00');
+(3, 12345, 0.5, '2020-04-28', '20:24:00'),
+(4, 121212, 0, '2020-05-10', '16:34:06');
 
 -- --------------------------------------------------------
 
@@ -106,7 +108,8 @@ CREATE TABLE `historico_lixeira_sensor_tampa` (
 
 INSERT INTO `historico_lixeira_sensor_tampa` (`id_historico_tampa`, `id_lixeira`, `valor`, `data`, `hora`) VALUES
 (1, 12345, 1, '2020-04-26', '17:14:05'),
-(3, 12345, 1, '2020-04-28', '21:20:17');
+(3, 12345, 1, '2020-04-28', '21:20:17'),
+(4, 121212, 1, '2020-05-10', '16:36:07');
 
 -- --------------------------------------------------------
 
@@ -127,8 +130,8 @@ CREATE TABLE `lixeira` (
 --
 
 INSERT INTO `lixeira` (`id_lixeira`, `lat`, `lng`, `tipo`, `ambiente`) VALUES
-(12345, -22.3821, -47.5461, 'Dragoni lixão', 'Condomínio'),
-(121212, -22.98, -23.9, 'Hospital', 'Centro');
+(12345, -22.3821, -47.5461, 'Metal', 'Condomínio'),
+(121212, -22.98, -23.9, 'Orgânico', 'Centro');
 
 --
 -- Índices para tabelas despejadas
@@ -177,19 +180,19 @@ ALTER TABLE `lixeira`
 -- AUTO_INCREMENT de tabela `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_evento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `historico_lixeira_sensor_capacidade`
 --
 ALTER TABLE `historico_lixeira_sensor_capacidade`
-  MODIFY `id_historico_capacidade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_historico_capacidade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `historico_lixeira_sensor_tampa`
 --
 ALTER TABLE `historico_lixeira_sensor_tampa`
-  MODIFY `id_historico_tampa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_historico_tampa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -21,6 +21,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import modelo.Funcionario;
 import modelo.FuncionarioDAO;
+import modelo.FuncionarioDetalhes;
 
 /**
  * REST Web Service
@@ -69,5 +70,16 @@ public class FuncionarioResource {
     public String selecionaFuncionario() throws SQLException {
         ArrayList<Funcionario> list = dao.selectFuncionario();
         return gson.toJson(list);
+    }
+    
+    @GET
+    @Path("detail/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String selecionaFuncionarioDetalhes(@PathParam("id") int id) throws SQLException, ClassNotFoundException {
+        FuncionarioDetalhes detalhe = dao.selectFuncionarioDetalhes(id);
+        if(detalhe == null) {
+            return "Nâo foi encontrado funcionário com ID informado";
+        }
+        return gson.toJson(detalhe);
     }
 }

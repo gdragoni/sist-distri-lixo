@@ -40,6 +40,30 @@ public class EventoDAO extends DAO {
     
     public ArrayList<Evento> selectEvento() throws SQLException {
         String sql = "SELECT * FROM evento";
+        return selectEventoPorQuery(sql);
+    }
+    
+    public ArrayList<Evento> selectEventosPorLixeira(int id) throws SQLException {
+        String sql = "SELECT * FROM evento WHERE evento.id_lixeira="+id;
+        return selectEventoPorQuery(sql);
+    }
+    
+    public ArrayList<Evento> selectEventosPorUsuario(int id) throws SQLException {
+        String sql = "SELECT * FROM evento WHERE evento.id_usuario="+id;
+        return selectEventoPorQuery(sql);
+    }
+    
+    public ArrayList<Evento> selectEventoPorData(String date) throws SQLException {
+        String sql = "SELECT * FROM evento WHERE evento.data='"+date+"'";
+        return selectEventoPorQuery(sql);
+    }
+    
+    public ArrayList<Evento> selectEventoPorDatas(String fromDate, String toDate) throws SQLException {
+        String sql = "SELECT * FROM evento WHERE evento.data BETWEEN '"+fromDate+"' AND '"+toDate+"'";
+        return selectEventoPorQuery(sql);
+    }
+    
+    private ArrayList<Evento> selectEventoPorQuery(String sql) throws SQLException {
         PreparedStatement stm = con.prepareStatement(sql);
         ResultSet rs = stm.executeQuery();
         

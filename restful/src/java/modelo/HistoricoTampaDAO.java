@@ -37,6 +37,25 @@ public class HistoricoTampaDAO extends DAO {
     
     public ArrayList<HistoricoTampa> selectHistoricoTampa() throws SQLException {
         String sql = "SELECT * FROM historico_lixeira_sensor_tampa";
+        return selectHistoricoTampaPorQuery(sql);
+    }
+    
+    public ArrayList<HistoricoTampa> selectHistoricoTampa(String date) throws SQLException {
+        String sql = "SELECT * FROM historico_lixeira_sensor_tampa WHERE historico_lixeira_sensor_tampa.data='"+date+"'";
+        return selectHistoricoTampaPorQuery(sql);
+    }
+    
+    public ArrayList<HistoricoTampa> selectHistoricoTampa(String fromDate, String toDate) throws SQLException {
+        String sql = "SELECT * FROM historico_lixeira_sensor_tampa WHERE historico_lixeira_sensor_tampa.data BETWEEN '"+fromDate+"' AND '"+toDate+"'";
+        return selectHistoricoTampaPorQuery(sql);
+    }
+    
+    public ArrayList<HistoricoTampa> selectHistoricoTampaPorLixeira(int id) throws SQLException {
+        String sql = "SELECT * FROM historico_lixeira_sensor_tampa WHERE historico_lixeira_sensor_tampa.id_lixeira="+id;
+        return selectHistoricoTampaPorQuery(sql);
+    }
+    
+    private ArrayList<HistoricoTampa> selectHistoricoTampaPorQuery(String sql) throws SQLException {
         PreparedStatement stm = con.prepareStatement(sql);
         ResultSet rs = stm.executeQuery();
         
