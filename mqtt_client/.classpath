@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/Users/leonardoleite/Downloads/org.eclipse.paho.client.mqttv3-1.0.3-20160602.074314-421.jar"/>
+	<classpathentry kind="lib" path="/Users/leonardoleite/Downloads/java jars/org.eclipse.paho.client.mqttv3-1.0.3-20160602.074314-421.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

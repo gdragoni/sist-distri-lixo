@@ -1,0 +1,4 @@
+/restful/dist/
+/restful/build/
+/restful/nbproject/private/
+*.DS_Store

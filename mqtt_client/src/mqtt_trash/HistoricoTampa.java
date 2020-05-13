@@ -10,16 +10,17 @@ import java.util.TimerTask;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 import mqtt_client.Capacity;
+import mqtt_client.Cover;
 import mqtt_client.MqttCliente;
 
-public class HistoricoCapacidade extends TimerTask {
+public class HistoricoTampa extends TimerTask {
 	private int trashId;
-	private double capacity;
+	private boolean value;
 	private MqttCliente client;
 	
-	HistoricoCapacidade(int trashId, double capacity, MqttCliente client) throws IOException {
+	HistoricoTampa(int trashId, boolean value, MqttCliente client) throws IOException {
 		this.trashId = trashId;
-		this.capacity = capacity;
+		this.value = value;
 		this.client = client;
 	}
 
@@ -27,18 +28,15 @@ public class HistoricoCapacidade extends TimerTask {
 	public void run() {
 		URL url;
 		
-		if (capacity < 1) {
-			capacity = capacity + 0.1;
-		} else {
-			capacity = 0;
-		}
+
+		value = !value;
 
 		try {
 			// Request POST
-			url = new URL("http://localhost:8080/restful/webresources/historicoCapacidade");
+			url = new URL("http://localhost:8080/restful/webresources/historicoTampa");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
-			String json = "{\"id_lixeira\":" + trashId + ", \"capacidade\":" + capacity + "}";
+			String json = "{\"id_lixeira\":" + trashId + ", \"valor\":" + value + "}";
 			
 			con.setDoOutput(true);
 			con.setRequestMethod("POST");
@@ -51,18 +49,22 @@ public class HistoricoCapacidade extends TimerTask {
 			Date data = new Date(System.currentTimeMillis());
 			Time hora = new Time(System.currentTimeMillis());
 
-			Capacity cap = new Capacity(trashId, capacity, data, hora);
+			Cover cover = new Cover(trashId, value, data, hora);
 			
 			
 			
 			if (con.getResponseCode() >= 200 && con.getResponseCode() < 300) {
-//				DEBUG - Habilitar para testar se está enviando corretamente
-//				System.out.print("\nCapacidade enviada com sucesso !");
+//				DEBUG - Habilitar para testar se está enviando corretamente			
+//				if (value == false) {
+//					System.out.print("\nTampa fechada com sucesso !");
+//				} else {
+//					System.out.print("\nTampa aberta com sucesso !");
+//				}
 				
 				String topic = "topic/" + String.valueOf(trashId);
-				client.publicarCapacity(topic, cap);
+				client.publicarCover(topic, cover);
 			} else {
-				System.out.print("\nFalha ao enviar a capacidade.");
+				System.out.print("\nFalha ao enviar a acao da tampa.");
 			}
 		} catch (IOException | MqttException e) {
 			// TODO Auto-generated catch block

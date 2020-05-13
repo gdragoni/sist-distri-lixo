@@ -5,9 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.lang.reflect.TypeVariable;
 import java.text.SimpleDateFormat;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -46,12 +44,33 @@ public class MqttCliente implements MqttCallback{
 		client.publish(topico, mensagemMqtt);
 	}
 	
+	public void publicarCapacity(String topico, Capacity cap) throws IOException, MqttPersistenceException, MqttException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(bos);
+		
+		oos.writeObject(cap);
+		MqttMessage mensagemMqtt = new MqttMessage(bos.toByteArray());
+		
+		client.publish(topico, mensagemMqtt);
+	}
+	
+	public void publicarCover(String topico, Cover cover) throws IOException, MqttPersistenceException, MqttException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(bos);
+		
+		oos.writeObject(cover);
+		MqttMessage mensagemMqtt = new MqttMessage(bos.toByteArray());
+		
+		client.publish(topico, mensagemMqtt);
+	}
+	
 
 	@Override
 	public void connectionLost(Throwable arg0) {
 		System.out.println("O Broker caiu...");
 		System.out.println(arg0.getMessage());
 	}
+
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken arg0) {
@@ -60,34 +79,68 @@ public class MqttCliente implements MqttCallback{
 		System.out.println("URI do broker: " + arg0.getClient().getServerURI());		
 	}
 
+
 	@Override
 	public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
 		ByteArrayInputStream bis = new ByteArrayInputStream(arg1.getPayload());
 		ObjectInputStream ois = new ObjectInputStream(bis);
 		
-		Trash trash = (Trash) ois.readObject();
-		
-		URL url = new URL("http://localhost:8080/restful/webresources/evento");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		
-		
-		
-		String json = "{\"data\":" + "\"" + trash.getData() + "\", \"hora\":" + "\"" + trash.getHora() + "\", \"id_lixeira\":" + trash.getIdLixeira() + ", \"descricao\":" + "\"" + trash.getDesc() + "\", \"id_usuario\":" + "\"" + trash.getRfid() + "\"}";
-
-		con.setDoOutput(true);
-		con.setRequestMethod("POST");
-		con.setRequestProperty("Content-Type", "application/json");
-		
-		OutputStream out = con.getOutputStream();
-		out.write(json.getBytes());
-		
-		if (con.getResponseCode() == 400) {
-			System.out.println("Requisição salva no banco com sucesso !!");
-		}
-		
-		
 		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 		
-		System.out.println("\nLixeira esvazia por RFID: " + trash.getRfid() + "\nDia: " + formatador.format(trash.getData()) + " as " + trash.getHora());		
+		Object obj = ois.readObject();
+	
+		if (obj instanceof Trash) {
+			Trash trash = (Trash) obj;
+			
+			// OUTPUT
+			System.out.println("------------------------");
+			System.out.println("|       ESVAZIAR ✅️     |");
+			System.out.println("-------------------------------------------------");
+			System.out.println("| HASH(id) LIXEIRA      | " + trash.getIdTrash());
+			System.out.println("-------------------------------------------------");
+			System.out.println("RFID(id) DO FUNCIONARIO | " + trash.getRfid());
+			System.out.println("-------------------------------------------------");
+			System.out.println("DATA                    | " + formatador.format(trash.getData()) + " as " + trash.getHora());
+			System.out.println("-------------------------------------------------\n");
+		
+		}
+		
+		if (obj instanceof Capacity) {
+			Capacity capacity = (Capacity) obj;
+			
+			// OUTPUT			
+			System.out.println("------------------------");
+			System.out.println("|      CAPACIDADE ⏳   |");
+			System.out.println("-------------------------------------------------");
+			System.out.println("| HASH(id) LIXEIRA     | " + capacity.getIdTrash() );
+			System.out.println("-------------------------------------------------");
+			System.out.println("| CAPACIDADE           | " + capacity.getCapacity());
+			System.out.println("-------------------------------------------------");
+			System.out.println("| DATA                 | " + formatador.format(capacity.getData()) + " as " + capacity.getHora());
+			System.out.println("-------------------------------------------------\n");
+		}
+		
+		if (obj instanceof Cover) {
+			Cover cover = (Cover) obj;
+			
+			String action;
+			
+			if (cover.getValue() == false) {
+				action = "Fechar";
+			} else {
+				action = "Abrir";
+			}
+			
+			// OUTPUT			
+			System.out.println("------------------------");
+			System.out.println("|    ACAO DA TAMPA 🚮  |");
+			System.out.println("-------------------------------------------------");
+			System.out.println("| HASH(id) LIXEIRA     | " + cover.getIdTrash() );
+			System.out.println("-------------------------------------------------");
+			System.out.println("| ACAO           | " + action );
+			System.out.println("-------------------------------------------------");
+			System.out.println("| DATA                 | " + formatador.format(cover.getData()) + " as " + cover.getHora());
+			System.out.println("-------------------------------------------------\n");
+		}
 	}	
 }
