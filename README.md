@@ -1,13 +1,13 @@
 # Sis Lixo 🗑
-Trabalho de Sistemas Distribuidos - Faculdade FHO Uniararas 🇧🇷
+Trabalho de Sistemas Distribuídos - Faculdade FHO Uniararas 🇧🇷
 
 # RESTful + MQTT
 Trabalho desenvolvido em **Java**
 
-O sistema utiliza os dois tipo de protocolos de comunicação , RESTful e MQTT.
+O sistema utiliza dois tipo de protocolos de comunicação, RESTful e MQTT.
 
 ## RESTful
-Realiza a comunicação entre o cliente e o banco de dados, através das requisições o cliente consegue pegar, criar, alterar e deletar dados do banco.
+Realiza a comunicação entre o cliente e o banco de dados, através das requisições, o cliente consegue visualizar, criar, alterar e deletar os dados do dados do banco.
 
 ### API Restful
 <details>
@@ -17,7 +17,7 @@ Realiza a comunicação entre o cliente e o banco de dados, através das requisi
 
   * Todas: `http://localhost:8080/restful/webresources/lixeira`
   * Por tipo: `http://localhost:8080/restful/webresources/lixeira?tipo=tipoDaLixeira`
-  * Por Id: `http://localhost:8080/restful/webresources/lixeira/detail/idDaLixeira`
+  * Por id: `http://localhost:8080/restful/webresources/lixeira/detail/idDaLixeira`
 
 - **POST**
 
@@ -56,7 +56,7 @@ Realiza a comunicação entre o cliente e o banco de dados, através das requisi
   - **GET**
 
     * Todos: `http://localhost:8080/restful/webresources/funcionario`
-    * Por Id: `http://localhost:8080/restful/webresources/funcionario/detail/idDoFuncionario`
+    * Por id: `http://localhost:8080/restful/webresources/funcionario/detail/idDoFuncionario`
 
   - **POST**
 
@@ -183,14 +183,14 @@ Realiza a comunicação entre o cliente e o banco de dados, através das requisi
 </details>
 
 ## MQTT
-Realiza a comunicação entre o sensor -> broker -> REST -> Banco de dados, através dos tópicos de incrição.
-Após cadastrar o sensor no sistema, o mesmo é incrito em um tópico no  **mosquitto broker**, esse tópico por padrão é "topic/idDaLixeira", neste tópico é enviado o histórico da tampa, histórico de capacidade e a ação de esvaziar a lixeira, podendo ser implementado inumeras ações e inseridas no tópico. Para simular foi definido alguns parametros.
+Realiza a comunicação entre o provedor (sensor) -> broker -> REST -> Banco de dados e cliente -> broker -> dados, através de tópicos.
+Após cadastrar o sensor no sistema, o mesmo é incrito em um tópico no  **mosquitto broker**, esse tópico por padrão foi definido como **"topic/idDaLixeira"**, no tópico é enviado o histórico da tampa, histórico de capacidade e a ação de esvaziar lixeira, podendo ser implementado inúmeras ações e inseridas no tópico. Para simular foi definido alguns parâmetros.
 - Tampa:  Abrirá de 2 em 2 minutos, publicando no broker a ação e gravando no banco de dados chamando a API RESTful descrita acima.
 
-- Capacidade: Crescer de 0.1 em 10 em 10 minutos até atingir o valor 1, passando depois para 0 e realizando o loop novamente, assim publicando no broker e gravando no banco de dados chamando a API RESTful descrita acima.
+- Capacidade: Irá crescer em 0.1 de 10 em 10 minutos até atingir o valor 1, voltando depois para o valor 0 e realizando o loop novamente, assim publicando no broker e gravando no banco de dados chamando a API RESTful descrita acima.
 
 **Ação de esvaziar lixeira**
-Para tal ação é necessario instalar o client em um dispositivo na lixeira que tenha um leitor RFID ou digitar o id do usuário, assim automaticamente será criado um evento como Esvaziou a lixeira, publicado no broker e gravando no banco de dados chamando a API RESTful descrita acima.
+Para tal ação é necessário instalar o client em um dispositivo na lixeira que tenha um leitor RFID ou teclado digitar o id do usuário, assim quando o funcionário digitar/passar o RFID automaticamente será criado um evento como "Esvaziou a lixeira", publicado no broker e gravando no banco de dados chamando a API RESTful descrita acima.
 
 **No MQTT tem 2 pacotes**
 
@@ -200,9 +200,9 @@ Para tal ação é necessario instalar o client em um dispositivo na lixeira que
     
       **Lembrando que o tópico é gerado pot topic/idDaLixeira**
 
-    Após isso o mesmo terá acesso atráves do broker a todos os eventos publicados daquela lixeira.
+    Após isso o mesmo terá acesso através do broker a todos os eventos publicados daquela lixeira.
 
 
 2. Pacode do provedor
 
-    - Este serviço deve ser utilizado pelo dispositivo que está na lixeira e conectado diretamente com os sensores, a qonde quando o sensor emitir um sinal o memso vai acinar a função correspondente do sensor e realizar a ação, publicando no evento e gravando a ação no banco.
+    - Este serviço deve ser utilizado pelo dispositivo que está na lixeira e conectado diretamente com os sensores, a onde quando o sensor emitir um sinal o memso vai acionar a função correspondente do sensor e realizar a ação, publicando no evento e gravando a ação no banco.
